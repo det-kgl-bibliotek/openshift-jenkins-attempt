@@ -1,17 +1,27 @@
 openshift.withCluster() { // Use "default" cluster or fallback to OpenShift cluster detection
     echo "Hello from the project running Jenkins: ${openshift.project()}"
 
-    echo branch
+    def projectName=BRANCH_NAME
 
-    branch master
-
-    node('maven') {
-        stage('checkout') {
-            checkout scm
+    stage('openshift-project') {
+        if (openshift.selector("projects", projectName).count() == 0) {
+            openshift.newProject(projectName)
         }
+    }
 
-        stage('Build') {
-            sh "mvn clean package"
+    openshift.withProject(projectName) {
+        node('maven') {
+            stage('checkout') {
+                checkout scm
+            }
+
+            stage('Build') {
+                sh "mvn clean package"
+            }
+
+            stage('Deploy test') {
+
+            }
         }
     }
 }
