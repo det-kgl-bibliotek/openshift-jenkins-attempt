@@ -9,3 +9,8 @@ configure it to use the credentials
 
 it scans the github org and finds nothing worthy
 
+
+
+We do NOT use different projects, we use one project per github org
+
+We use labels instead 

@@ -3,10 +3,8 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
 
     def projectName=BRANCH_NAME
 
-    stage('openshift-project') {
-        if (openshift.selector("projects", projectName).count() == 0) {
-            openshift.newProject(projectName)
-        }
+    stage('environment') {
+        echo env
     }
 
     openshift.withProject(projectName) {
