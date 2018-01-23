@@ -14,7 +14,7 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
     stage('Deploy test') {
 
 
-        def created = openshift.newApp( '--template=postgresql-ephemeral', "--name=${java.net.URLEncoder.encode("${JOB_NAME}-postgres", "UTF-8")}", "--labels=from=${JOB_NAME}" )
+        def created = openshift.newApp( '--template=postgresql-ephemeral', "--name=${"${JOB_NAME}-postgres".replace("/",'-')}", "--labels=from=${JOB_NAME}" )
         // This Selector exposes the same operations you have already seen.
         // (And many more that you haven't!).
         echo "new-app created ${created.count()} objects named: ${created.names()}"
