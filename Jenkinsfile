@@ -11,6 +11,23 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
 
     }
 
+    stage('Deploy test') {
+        def created = openshift.newApp( 'postgresql-ephemeral', "--name='${JOB_NAME}-postgres'", "--labels='${JOB_NAME}'" )
+        // This Selector exposes the same operations you have already seen.
+        // (And many more that you haven't!).
+        echo "new-app created ${created.count()} objects named: ${created.names()}"
+
+        echo created.describe()
+
+//            for ( obj in created ) {
+//                obj.metadata.labels[ "build" ] = JOB_NAME
+//            }
+
+
+//            JOB_NAME=det-kgl-bibliotek/openshift-jenkins-attempt/master
+    }
+
+
     node('maven') {
 //        stage('checkout') {
 //            checkout scm
@@ -20,20 +37,5 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
 //            sh "mvn clean package"
 //        }
 
-        stage('Deploy test') {
-            def created = openshift.newApp( 'postgresql-ephemeral', "--name=${JOB_NAME}-postgres", "--labels=${JOB_NAME}" )
-            // This Selector exposes the same operations you have already seen.
-            // (And many more that you haven't!).
-            echo "new-app created ${created.count()} objects named: ${created.names()}"
-
-            created.describe()
-
-//            for ( obj in created ) {
-//                obj.metadata.labels[ "build" ] = JOB_NAME
-//            }
-
-
-//            JOB_NAME=det-kgl-bibliotek/openshift-jenkins-attempt/master
-        }
     }
 }
