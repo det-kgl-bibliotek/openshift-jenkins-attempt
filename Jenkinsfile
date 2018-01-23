@@ -4,7 +4,10 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
     def projectName=BRANCH_NAME
 
     stage('environment') {
-        echo env
+        sh 'env > env.txt'
+        for (String i : readFile('env.txt').split("\r?\n")) {
+            println i
+        }
     }
 
     openshift.withProject(projectName) {
