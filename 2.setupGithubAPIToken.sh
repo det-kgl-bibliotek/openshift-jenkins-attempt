@@ -10,13 +10,15 @@ apiToken=$(grep "\Wtoken:" githubAPIToken.yaml | cut -d':' -f2 | xargs echo)
 
 ocToken=$(oc whoami --show-token)
 
+JENKINS='https://jenkins-standalone-jenkins.apps-test.kb.dk'
 
 #https://stackoverflow.com/a/37998865/4527948
 curl \
+    --silent \
     --header "Authorization: Bearer $ocToken" \
     -X POST \
     --insecure \
-    'https://jenkins-standalone-jenkins.apps-test.kb.dk/credentials/store/system/domain/_/createCredentials' \
+    "$JENKINS/credentials/store/system/domain/_/createCredentials" \
     --data-urlencode \
 'json={
   "": "0",
@@ -28,4 +30,4 @@ curl \
     "description": "github api token",
     "$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"
   }
-}'
+}' > creds.html

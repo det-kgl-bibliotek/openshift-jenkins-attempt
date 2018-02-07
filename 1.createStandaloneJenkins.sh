@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
+set -x
 oc delete project standalone-jenkins --ignore-not-found=true --now=true
+set -e
+until (oc delete project standalone-jenkins --ignore-not-found=true --now=true); do
+    sleep 5
+done
+
 oc new-project standalone-jenkins
 oc new-app --template=jenkins-ephemeral
 
