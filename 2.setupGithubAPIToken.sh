@@ -28,4 +28,4 @@ curl \
     "description": "github api token",
     "$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"
   }
-}' > creds.html
+}'
